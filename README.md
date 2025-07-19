@@ -1,4 +1,4 @@
-# Ping Pong
+# Ping Pong in Rust
 
 ## Motivation
 
