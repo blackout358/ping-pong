@@ -24,7 +24,7 @@ impl Gamemode for StandardGame {
         const MAP_WIDTH: u8 = 80;
         const MAP_HEIGHT: u8 = 30;
         const PADDLE_SIZE: u8 = 4;
-        const PLAYER_TIMEOUT: Duration = Duration::from_millis(25);
+        const PLAYER_TIMEOUT: Duration = Duration::from_millis(1);
 
         let ball_start_x = MAP_WIDTH / 2;
         let ball_start_y = MAP_HEIGHT / 2;
@@ -88,6 +88,7 @@ impl Gamemode for StandardGame {
             match update_result {
                 Ok(_) => {
                     self.calculate_next_frame(gamestate);
+                    self.step_ball(gamestate);
                     if self.stepping {
                         self.step_ball(gamestate);
                         self.stepping = false;
@@ -97,7 +98,7 @@ impl Gamemode for StandardGame {
                     self.print_game_state(gamestate);
                 }
                 Err(e) => match e {
-                    PlayerError::Io(error) => todo!("Player IO Error {:?}", error),
+                    PlayerError::Io(error) => warn!("Player IO Error {:?}", error),
                     PlayerError::PlayerDisconnected => todo!("Player Disconnected"),
                     PlayerError::UndefinedPacket(n) => todo!("Undefined Packet Number: {}", n),
                 },
